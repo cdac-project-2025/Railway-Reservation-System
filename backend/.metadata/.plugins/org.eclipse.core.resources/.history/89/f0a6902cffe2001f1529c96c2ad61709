@@ -1,0 +1,8 @@
+package com.railway.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class ExpressService {
+	
+}

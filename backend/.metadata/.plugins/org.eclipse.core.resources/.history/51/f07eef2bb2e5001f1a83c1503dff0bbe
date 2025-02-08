@@ -1,0 +1,16 @@
+package com.railway.service.impl;
+
+import java.util.List;
+
+import com.railway.entity.DivertedTrain;
+import com.railway.service.DivertedTrainService;
+
+public class DivertedTrainServiceImpl implements DivertedTrainService {
+
+	@Override
+	public List<DivertedTrain> getDivertedTrains() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

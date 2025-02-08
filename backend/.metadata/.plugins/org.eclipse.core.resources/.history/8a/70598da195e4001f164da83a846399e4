@@ -1,0 +1,41 @@
+package com.railway.service.impl;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.UserDao;
+import com.railway.dto.ApiResponse;
+import com.railway.dto.UserRegDto;
+import com.railway.entity.User;
+import com.railway.service.UserService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
+	private UserDao userDao;
+	private ModelMapper modelMapper;
+	
+	@Override
+	public ApiResponse registerUser(UserRegDto userDto) {
+		User user = userDao.findByEmail(userDto.getEmail()).orElse(null);
+		if(user == null) {
+			user = userDao.findByUserName(userDto.getUserName()).orElse(null);
+			
+			if(user == null) {
+				user = modelMapper.map(userDto, User.class);
+				userDao.save(user);
+				return new ApiResponse("User successfully registered");
+			}
+			else {
+				return new ApiResponse("Useranme already exists!");
+			}
+		}
+		else {
+			return new ApiResponse("Email already exists!");
+		}
+	}
+}

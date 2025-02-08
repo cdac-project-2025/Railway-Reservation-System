@@ -1,0 +1,14 @@
+package com.railway.GlobalException;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.railway.exceptions.ResourceNotFoundException;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	@ResponseStatus(value = Http)
+}

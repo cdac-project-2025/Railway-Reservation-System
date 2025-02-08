@@ -1,0 +1,13 @@
+package com.railway.service;
+
+import java.util.List;
+
+import com.railway.dto.SearchByStationCodeResDto;
+
+public interface TrainRouteService {
+
+	List<SearchByStationCodeResDto> searchByStation(String stationCode);
+
+	List<TrainScheduleDto> getTrainSchedule(String trainNumber);
+
+}

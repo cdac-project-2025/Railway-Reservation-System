@@ -1,0 +1,16 @@
+package com.railway.service.impl;
+
+import java.util.List;
+
+import com.railway.entity.CancelledTrain;
+import com.railway.service.CancelledTrainService;
+
+public class CancelledTrainServiceImpl implements CancelledTrainService {
+
+	@Override
+	public List<CancelledTrain> getCancelledTrains() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

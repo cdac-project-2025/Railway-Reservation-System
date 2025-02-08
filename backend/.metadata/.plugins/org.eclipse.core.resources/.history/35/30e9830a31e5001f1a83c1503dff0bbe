@@ -1,0 +1,58 @@
+package com.railway.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.railway.dto.UserLoginDto;
+import com.railway.dto.UserRegDto;
+import com.railway.service.impl.UserServiceImpl;
+
+import lombok.AllArgsConstructor;
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
+@AllArgsConstructor
+@RequestMapping("/users")
+public class UserController {
+	private UserServiceImpl userService;
+
+	@PostMapping("/register")
+	public ResponseEntity<?> registerUser(@RequestBody UserRegDto userDto) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(userService.registerUser(userDto));
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userDto) {
+		System.out.println("login");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(userService.loginUser(userDto));
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<?> updateUser(@RequestBody UserRegDto userDto, @RequestHeader Long id) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(userService.updateUser(userDto, id));
+	}
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> deleteUser(@RequestHeader Long id) {
+		return ResponseEntity.status(HttpStatus.GONE)
+				.body(userService.deleteUser(id));
+	}
+	
+	@GetMapping()
+	public ResponseEntity<?> getUserDetails(@RequestHeader Long id) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(userService.getUserDetails(id));
+	}
+}

@@ -1,0 +1,11 @@
+package com.railway.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.railway.entity.CancelledTrain;
+
+public interface CancelledTrainService {
+	
+	Optional<List<CancelledTrain>> getCancelledTrains();
+}

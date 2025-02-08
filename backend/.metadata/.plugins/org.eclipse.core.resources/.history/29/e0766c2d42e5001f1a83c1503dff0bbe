@@ -1,0 +1,15 @@
+package com.railway.service.impl;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.service.TrainService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainServiceImpl implements TrainService {
+
+}

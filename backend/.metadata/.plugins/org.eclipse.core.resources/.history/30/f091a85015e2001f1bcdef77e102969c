@@ -1,0 +1,47 @@
+package com.railway.entity;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "train_classes")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
+public class ClassInTrain extends BaseEntity{
+	
+	private int availableSeats;
+	
+	@Column(precision = 10, scale = 2)
+	private double fare;
+	
+	@ManyToOne
+	@JoinColumn(name = "train_number", nullable = false)
+	private Train trainNumber;
+	
+	@ManyToOne
+	@JoinColumn(name = "class_name", nullable = false)
+	private AllClass className;
+	
+	@CreationTimestamp
+	private LocalDate createdOn;
+	
+	@UpdateTimestamp
+	private LocalDateTime updatedOn;
+}

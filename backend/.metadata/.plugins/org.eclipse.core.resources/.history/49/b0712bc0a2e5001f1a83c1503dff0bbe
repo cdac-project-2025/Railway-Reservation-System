@@ -1,0 +1,21 @@
+package com.railway.dao;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.railway.dto.SearchByStationCodeResDto;
+import com.railway.entity.TrainRoute;
+
+@Repository
+public interface TrainRouteDao extends JpaRepository<TrainRoute, Long> {
+	
+	@Query("SELECT NEW com.railway.dto.SearchByStationCodeResDto(r.trainNumber.trainNumber, t.trainName, "
+			+ "r.arrivalTime, r.departureTime, t.stationFrom.stationFrom, t.stationTo.stationTo, r.haltTime) "
+			+ "FROM TrainRoute r, Train t "
+			+ "WHERE t.trainNumber = r.trainNumber.trainNumber AND r.stationCode.stationCode=:stationCode")
+	Optional<List<SearchByStationCodeResDto>> searchBySataionCode(String stationCode);
+}

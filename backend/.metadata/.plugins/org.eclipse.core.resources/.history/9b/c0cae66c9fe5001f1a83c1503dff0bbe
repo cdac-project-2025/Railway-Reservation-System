@@ -1,0 +1,7 @@
+package com.railway.service.impl;
+
+import com.railway.service.TrainRouteService;
+
+public class TrainRouteServiceImpl implements TrainRouteService {
+
+}

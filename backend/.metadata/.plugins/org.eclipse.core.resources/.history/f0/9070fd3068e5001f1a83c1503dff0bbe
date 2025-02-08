@@ -1,0 +1,40 @@
+package com.railway.service.impl;
+
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.List;
+import java.util.Locale;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.TrainDao;
+import com.railway.dto.SearchTrainReqDto;
+import com.railway.dto.SearchTrainResDto;
+import com.railway.exceptions.ResourceNotFoundException;
+import com.railway.service.TrainService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainServiceImpl implements TrainService {
+	private TrainDao trainDao;
+	
+//	private String getDayFromDate(LocalDate date) {
+//        String dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+//        return dayName;
+//	}
+	
+	
+	@Override
+	public List<SearchTrainResDto> searchForTrains(SearchTrainReqDto searchDto) {
+		List<SearchTrainResDto> tList = trainDao.searchForTrains(searchDto.getStationFrom(), searchDto.getStationTo())
+				.orElseThrow(() -> new ResourceNotFoundException("No trains exists for this route!"));
+		
+		System.out.println(tList);
+		
+		return null;
+	}
+}

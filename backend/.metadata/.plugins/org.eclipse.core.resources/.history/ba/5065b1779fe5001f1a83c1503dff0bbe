@@ -1,0 +1,9 @@
+package com.railway.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.railway.entity.TrainRoute;
+
+public interface TrainRouteDao extends JpaRepository<TrainRoute, Long> {
+	
+}

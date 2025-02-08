@@ -1,0 +1,42 @@
+package com.railway.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.TrainRouteDao;
+import com.railway.dto.SearchByStationCodeResDto;
+import com.railway.dto.TrainScheduleDto;
+import com.railway.exceptions.ResourceNotFoundException;
+import com.railway.service.TrainRouteService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainRouteServiceImpl implements TrainRouteService {
+	private TrainRouteDao trainRouteDao;
+	
+	@Override
+	public List<SearchByStationCodeResDto> searchByStation(String stationCode) {
+		List<SearchByStationCodeResDto> trains = trainRouteDao.searchBySataionCode(stationCode);
+		
+		if(trains.isEmpty())
+			throw new ResourceNotFoundException("Station does not exists - " + stationCode);
+		
+		return trains;
+	}
+
+	@Override
+	public List<TrainScheduleDto> getTrainSchedule(String trainNumber) {
+		List<TrainScheduleDto> schedules = trainRouteDao.getTrainSchedule(trainNumber);
+		
+		if(schedules.isEmpty())
+			throw new ResourceNotFoundException("No such train - " + trainNumber);
+		
+		return schedules;
+	}
+	
+}

@@ -1,0 +1,43 @@
+package com.railway.entity;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "train_routes")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
+public class TrainRoute extends BaseEntity{
+	
+	private Train trainId;
+
+	private Station stationCode;
+	
+	@Column(nullable = false)
+	private int stnSerialNumber;
+	
+	private LocalTime departureTime;
+	
+	private LocalTime arrivalTime;
+	
+	private int dayCount;
+	
+	private int routeNumber;
+	
+	@Column(length = 10)
+	private String haltTime;
+	
+	private int distance;
+}

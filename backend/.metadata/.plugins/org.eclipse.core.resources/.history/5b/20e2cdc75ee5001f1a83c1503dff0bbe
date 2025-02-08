@@ -1,0 +1,26 @@
+package com.railway.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.TrainDao;
+import com.railway.dto.SearchTrainReqDto;
+import com.railway.dto.SearchTrainResDto;
+import com.railway.service.TrainService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainServiceImpl implements TrainService {
+	private TrainDao trainDao;
+
+	@Override
+	public List<SearchTrainResDto> searchForTrains(SearchTrainReqDto searchDto) {
+		
+		return null;
+	}
+}

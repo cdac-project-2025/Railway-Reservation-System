@@ -1,0 +1,46 @@
+package com.railway.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.StationDao;
+import com.railway.dao.TrainDao;
+import com.railway.dto.SearchTrainReqDto;
+import com.railway.dto.SearchTrainResDto;
+import com.railway.entity.Station;
+import com.railway.exceptions.ResourceNotFoundException;
+import com.railway.service.TrainService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainServiceImpl implements TrainService {
+	private TrainDao trainDao;
+	private StationDao stationDao;
+	
+//	private String getDayFromDate(LocalDate date) {
+//        String dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+//        return dayName;
+//	}
+	
+	
+	@Override
+	public List<SearchTrainResDto> searchForTrains(SearchTrainReqDto searchDto) {
+		Station stationFrom = stationDao.findByStationCode(searchDto.getStationFrom())
+				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists" + searchDto.getStationFrom()));
+		
+		Station stationTo = stationDao.findByStationCode(searchDto.getStationFrom())
+				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists" + searchDto.getStationFrom()));
+				
+		List<SearchTrainResDto> tList = trainDao.searchForTrains(stationFrom, stationTo)
+				.orElseThrow(() -> new ResourceNotFoundException("No trains exists for this route!"));
+		System.out.println("Hello");
+		tList.forEach(System.out::println);
+		
+		return null;
+	}
+}

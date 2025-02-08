@@ -1,0 +1,10 @@
+package com.railway.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.railway.entity.CancelledTrain;
+import com.railway.entity.CompositeTrainKey;
+
+public interface CancelledTrainDao extends JpaRepository<CancelledTrain, CompositeTrainKey> {
+	
+}

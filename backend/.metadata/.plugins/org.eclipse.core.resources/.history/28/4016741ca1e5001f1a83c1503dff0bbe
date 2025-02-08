@@ -1,0 +1,24 @@
+package com.railway.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dto.SearchByStationCodeResDto;
+import com.railway.service.TrainRouteService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainRouteServiceImpl implements TrainRouteService {
+
+	@Override
+	public List<SearchByStationCodeResDto> searchByStation(String stationCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

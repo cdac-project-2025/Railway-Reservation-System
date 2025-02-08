@@ -1,0 +1,12 @@
+package com.railway.dto;
+
+import java.time.LocalTime;
+
+public class TrainListResDto {
+	private String fromStation;
+	private String toStation;
+	private LocalTime fromStationArrival;
+	private LocalTime fromStationDeparture;
+	private LocalTime toStationArrival;
+	private LocalTime toStationDeparture;
+}

@@ -1,0 +1,8 @@
+package com.railway.service;
+
+import com.railway.dto.ApiResponse;
+import com.railway.dto.UserRegDto;
+
+public interface UserService {
+	ApiResponse registerUser(UserRegDto userDto);
+}

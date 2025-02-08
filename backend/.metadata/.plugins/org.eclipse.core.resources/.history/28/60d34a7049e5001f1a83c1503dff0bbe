@@ -1,0 +1,12 @@
+package com.railway.service;
+
+import java.util.List;
+
+import com.railway.dto.SearchTrainReqDto;
+import com.railway.dto.TrainListResDto;
+
+public interface TrainService {
+
+	List<TrainListResDto> searchForTrains(SearchTrainReqDto searchDto);
+	
+}

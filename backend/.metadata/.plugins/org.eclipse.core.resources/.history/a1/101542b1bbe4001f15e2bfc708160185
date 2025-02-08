@@ -1,0 +1,70 @@
+package com.railway.service.impl;
+
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.UserDao;
+import com.railway.dto.ApiResponse;
+import com.railway.dto.UserLoginDto;
+import com.railway.dto.UserRegDto;
+import com.railway.entity.User;
+import com.railway.exceptions.FieldNotAvailableException;
+import com.railway.exceptions.ResourceNotFoundException;
+import com.railway.service.UserService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
+	private final UserDao userDao;
+	private final ModelMapper modelMapper;
+	
+	@Override
+	public ApiResponse registerUser(UserRegDto userDto) {
+		if(userDao.existsByEmail(userDto.getEmail()))
+			throw new FieldNotAvailableException("Email already exists!");
+		
+		if(userDao.existsByUserName(userDto.getUserName()))
+			throw new FieldNotAvailableException("Username already exists!");
+		
+		User user = modelMapper.map(userDto, User.class);
+		userDao.save(user);
+		return new ApiResponse("User successfully registered");
+	}
+
+	@Override
+	public ApiResponse loginUser(UserLoginDto userDto) {
+		User user = userDao.findByUserNameAndPassword(userDto.getUserName(), userDto.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Username or password"));
+		
+		//Send generated token on successful login in res entity body
+		return new ApiResponse("Login Successful!");
+	}
+	
+	@Override
+	public ApiResponse updateUser(UserRegDto userDto, Long id) {
+		//Decrypt token from req header to get user id
+		Optional<User> user = userDao.findById(id);
+		
+		if((userDto.getEmail() != user.get().getEmail()) && userDao.existsByEmail(userDto.getEmail()))
+			throw new FieldNotAvailableException("Email already exists!");
+		
+		if(userDto.getUserName() == user.get().getUserName() && userDao.existsByUserName(userDto.getUserName()))
+			throw new FieldNotAvailableException("Username already exists!");
+		
+		user.get().setName(userDto.getName());
+		user.get().setUserName(userDto.getUserName());
+		user.get().setEmail(userDto.getEmail());
+		if(userDto.getPassword() != null)
+			user.get().setPassword(userDto.getPassword());
+		user.get().setPhoneNo(userDto.getPhoneNo());
+		
+		return new ApiResponse("User details updated successfully!");
+	}
+}

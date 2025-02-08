@@ -1,0 +1,51 @@
+package com.railway.dao;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.railway.dto.SearchTrainResDto;
+import com.railway.entity.Station;
+import com.railway.entity.Train;
+
+@Repository
+public interface TrainDao extends JpaRepository<Train, String> {
+	
+//	@Query("SELECT NEW com.railway.dto.SearchTrainResDto(ro.arrivalTime AS fromStationArrival,"
+//			+ " ro.departureTime AS fromStationDeparture, ri.arrivalTime AS toStationArrival, "
+//			+ "ri.departureTime AS toStationDeparture, t.trainNumber, t.trainName, t.runsOnMon, "
+//			+ "t.runsOnTue, t.runsOnWed, t.runsOnThur, t.runsOnFri, t.runsOnSat, t.runsOnSun) " +
+//		       "FROM TrainRoute ro, TrainRoute ri, Train t " +
+//		       "WHERE t.trainNumber = ro.trainNumber.trainNumber " +
+//		       "AND ro.stationCode = :stationFrom " +
+//		       "AND t.trainNumber = ri.trainNumber.trainNumber " +
+//		       "AND ri.stationCode = :stationTo " +
+//		       "AND ro.stnSerialNumber < ri.stnSerialNumber")
+//	Optional<List<SearchTrainResDto>> searchForTrains(Station stationFrom, Station stationTo);
+	
+	@Query("SELECT NEW com.railway.dto.SearchTrainResDto(ro.stationCode AS fromStation, "
+			+ "ri.stationCode AS toStation, "
+			+ "ro.arrivalTime AS fromStationArrival, "
+			+ "ro.departureTime AS fromStationDeparture, ri.arrivalTime AS toStationArrival, "
+			+ "ri.departureTime AS toStationDeparture, t.trainNumber, t.trainName) "
+			+ "FROM TrainRoute ro, TrainRoute ri, Train t "
+			+ "WHERE t.trainNumber = ro.trainNumber.trainNumber "
+			+ "AND ro.stationCode = :stationFrom "
+			+ "AND t.trainNumber = ri.trainNumber.trainNumber "
+			+ "AND ri.stationCode = :stationTo "
+			+ "AND ro.stnSerialNumber < ri.stnSerialNumber "
+			+ "AND ( "
+			+ "CASE :day "
+			+ "WHEN 'Mon' THEN t.runsOnMon "
+			+ "WHEN 'Tue' THEN t.runsOnTue "
+			+ "WHEN 'Wed' THEN t.runsOnWed "
+			+ "WHEN 'Thu' THEN t.runsOnThur "
+			+ "WHEN 'Fri' THEN t.runsOnFri "
+			+ "WHEN 'Sat' THEN t.runsOnSat "
+			+ "WHEN 'Sun' THEN t.runsOnSun "
+			+ "END) = 'Y'")
+	Optional<List<SearchTrainResDto>> searchForTrains(Station stationFrom, Station stationTo, String day);
+}

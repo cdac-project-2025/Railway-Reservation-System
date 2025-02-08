@@ -1,0 +1,46 @@
+package com.railway.service.impl;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.UserDao;
+import com.railway.dto.ApiResponse;
+import com.railway.dto.UserLoginDto;
+import com.railway.dto.UserRegDto;
+import com.railway.entity.User;
+import com.railway.exceptions.FieldNotAvailableException;
+import com.railway.exceptions.ResourceNotFoundException;
+import com.railway.service.UserService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class UserServiceImpl implements UserService {
+	private UserDao userDao;
+	private ModelMapper modelMapper;
+	
+	@Override
+	public ApiResponse registerUser(UserRegDto userDto) {
+		User user = userDao.findByEmail(userDto.getEmail())
+				.orElseThrow(() -> new FieldNotAvailableException("Email already exists!"));
+		
+		user = userDao.findByUserName(userDto.getUserName())
+				.orElseThrow(() -> new FieldNotAvailableException("Username already exists!"));
+		
+		user = modelMapper.map(userDto, User.class);
+		userDao.save(user);
+		return new ApiResponse("User successfully registered");
+	}
+
+	@Override
+	public ApiResponse loginUser(UserLoginDto userDto) {
+		User user = userDao.findByUserNameAndPassword(userDto.getUserName(), userDto.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Username or password"));
+		
+		//Send generated token on successful login in res entity body
+		return new ApiResponse("Login Successful!");
+	}
+}

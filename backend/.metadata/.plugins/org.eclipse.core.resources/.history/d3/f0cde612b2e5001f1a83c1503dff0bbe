@@ -1,0 +1,7 @@
+package com.railway.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DivertedTrainDao extends JpaRepository<T, ID> {
+
+}

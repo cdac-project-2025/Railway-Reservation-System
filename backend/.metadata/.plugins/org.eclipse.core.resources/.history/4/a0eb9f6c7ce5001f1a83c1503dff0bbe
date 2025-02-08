@@ -1,0 +1,71 @@
+package com.railway.service.impl;
+
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.railway.dao.StationDao;
+import com.railway.dao.TrainDao;
+import com.railway.dto.SearchTrainReqDto;
+import com.railway.dto.SearchTrainResDto;
+import com.railway.entity.Station;
+import com.railway.entity.TrainRunsOn;
+import com.railway.exceptions.ResourceNotFoundException;
+import com.railway.service.TrainService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@Transactional
+@AllArgsConstructor
+public class TrainServiceImpl implements TrainService {
+	private TrainDao trainDao;
+	private StationDao stationDao;
+	
+	private String getDayFromDate(LocalDate date) {
+        String dayName = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+        return dayName;
+	}
+	
+	private List<SearchTrainResDto> filterTrainsByDay(List<SearchTrainResDto> tList, String dayEnum) {
+	    return tList.stream()
+	            .filter(train -> {
+	                switch (dayEnum) {
+		                case "Mon": return train.getRunsOnMon() == TrainRunsOn.Y;
+	                    case "Tue": return train.getRunsOnTue() == TrainRunsOn.Y;
+	                    case "Wed": return train.getRunsOnWed() == TrainRunsOn.Y;
+	                    case "Thu": return train.getRunsOnThur() == TrainRunsOn.Y;
+	                    case "Fri": return train.getRunsOnFri() == TrainRunsOn.Y;
+	                    case "Sat": return train.getRunsOnSat() == TrainRunsOn.Y;
+	                    case "Sun": return train.getRunsOnSun() == TrainRunsOn.Y;
+	                    default: return false;
+	                }
+	            })
+	            .collect(Collectors.toList());
+	}
+	
+	
+	@Override
+	public List<SearchTrainResDto> searchForTrains(SearchTrainReqDto searchDto) {
+		Station stationFrom = stationDao.findByStationCode(searchDto.getStationFrom())
+				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists " + searchDto.getStationFrom()));
+		
+		Station stationTo = stationDao.findByStationCode(searchDto.getStationTo())
+				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists " + searchDto.getStationTo()));
+		
+		String day = getDayFromDate(searchDto.getDate());
+		System.out.println(day);
+				
+		List<SearchTrainResDto> tList = trainDao.searchForTrains(stationFrom, stationTo)
+				.orElseThrow(() -> new ResourceNotFoundException("No trains exists for this route!"));
+		
+		List<SearchTrainResDto> filteredList = filterTrainsByDay(tList, day);
+		
+		return filteredList;
+	}
+}

@@ -1,0 +1,11 @@
+package com.railway.service;
+
+import org.springframework.stereotype.Service;
+
+import com.railway.dto.ApiResponse;
+import com.railway.dto.UserRegDto;
+
+@Service
+public interface UserService {
+	ApiResponse saveUser(UserRegDto userDto);
+}
