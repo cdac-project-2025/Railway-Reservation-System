@@ -1,5 +1,7 @@
 package com.railway.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpressDto {
+public class TicketResponseDto {
 	private String status;
-	private DataModel data;
+	private List<TicketModel> passengers;
+	private Long bookingId;
 }

@@ -18,7 +18,7 @@ public class StationServiceImpl implements StationService {
 
 	@Override
 	public Station findByStationCode(String station) {
-		Station stn = stationDao.findByStationCode(station)
+		Station stn = stationDao.findById(station)
 				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists" + station));
 		
 		return stn;

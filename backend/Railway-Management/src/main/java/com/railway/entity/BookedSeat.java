@@ -26,6 +26,9 @@ public class BookedSeat extends BaseEntity {
 	private LocalDate bookingDate;
 	
 	@Column(nullable = false)
+	private LocalDate journeyDate;
+	
+	@Column(nullable = false)
 	private int bookedSeats;
 	
 	@ManyToOne

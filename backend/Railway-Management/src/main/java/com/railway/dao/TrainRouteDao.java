@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.railway.dto.SearchByStationCodeResDto;
 import com.railway.dto.TrainScheduleDto;
+import com.railway.entity.Station;
+import com.railway.entity.Train;
 import com.railway.entity.TrainRoute;
 
 @Repository
@@ -24,4 +26,7 @@ public interface TrainRouteDao extends JpaRepository<TrainRoute, Long> {
 			+ "from TrainRoute r, Station s "
 			+ "where r.stationCode.stationCode = s.stationCode and r.trainNumber.trainNumber=:trainNumber")
 	List<TrainScheduleDto> getTrainSchedule(String trainNumber);
+
+	TrainRoute findByTrainNumberAndStationCode(Train trainNumber, Station station);
+
 }

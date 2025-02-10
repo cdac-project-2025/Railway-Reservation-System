@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -30,6 +32,19 @@ public class Booking extends BaseEntity{
 	@Column(nullable = false)
 	private LocalDate journeyDate;
 	
+	@Column(length = 10, nullable = false)
+	private String phoneNo;
+	
+	@Column(length = 50, nullable = false)
+	private String email;
+	
+	@Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
+	private double amount;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 10, nullable = false)
+	private Status status;
+	
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User userId;
@@ -45,4 +60,5 @@ public class Booking extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name = "to_station", nullable = false)
 	private Station toStation;
+
 }

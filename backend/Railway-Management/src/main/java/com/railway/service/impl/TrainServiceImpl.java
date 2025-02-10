@@ -36,10 +36,10 @@ public class TrainServiceImpl implements TrainService {
 		
 	@Override
 	public List<SearchTrainResDto> searchForTrains(SearchTrainReqDto searchDto) {
-		Station stationFrom = stationDao.findByStationCode(searchDto.getStationFrom())
+		Station stationFrom = stationDao.findById(searchDto.getStationFrom())
 				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists " + searchDto.getStationFrom()));
 		
-		Station stationTo = stationDao.findByStationCode(searchDto.getStationTo())
+		Station stationTo = stationDao.findById(searchDto.getStationTo())
 				.orElseThrow(() -> new ResourceNotFoundException("Station does not exists " + searchDto.getStationTo()));
 		
 		String day = getDayFromDate(searchDto.getDate());

@@ -29,7 +29,7 @@ public class TrainController {
 	private CancelledTrainService cancelledTrainService; 
 	private DivertedTrainService divertedTrainService;
 	
-	@PostMapping("/search")
+	@PostMapping("/train-list")
 	public ResponseEntity<?> searchForTrains(@RequestBody SearchTrainReqDto searchDto) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(trainService.searchForTrains(searchDto));

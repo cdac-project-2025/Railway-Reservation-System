@@ -9,7 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpressDto {
-	private String status;
-	private DataModel data;
+public class SeatAvailabilityResDto {
+	private String trainNumber;
+	private String className;
+	private Long availableSeats;
+	private double fare;
 }

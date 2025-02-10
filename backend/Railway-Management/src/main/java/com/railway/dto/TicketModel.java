@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpressDto {
-	private String status;
-	private DataModel data;
+public class TicketModel {
+	private String name;
+	private int seatNo;
 }

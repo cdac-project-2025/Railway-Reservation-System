@@ -1,5 +1,7 @@
 package com.railway.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,14 +38,14 @@ public class Passenger extends BaseEntity {
 	
 	private int seatNo;
 	
-	@Column(length = 10, nullable = false)
-	private String phoneNo;
+	@Column(length = 20, nullable = false)
+	private String className;
 	
-	@Column(length = 50, nullable = false)
-	private String email;
+	@Column(nullable = false)
+	private LocalDate journeyDate;
 	
-	@Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
-	private double amount;
+	@Column(length = 20, nullable = false)
+	private String trainNumber;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10, nullable = false)
